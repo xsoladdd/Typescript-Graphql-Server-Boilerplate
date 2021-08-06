@@ -4,13 +4,7 @@ import express from "express";
 const app = express();
 
 app.get("/", async (_, res) => {
-  // console.log(
-  //   await sign({
-  //     foo: "bar",
-  //   })
-  // );
-  // console.log();
-  res.send("hello shits");
+  res.send("hello world");
 });
 
 export default app;

@@ -24,6 +24,7 @@ const main = async () => {
     },
   });
 
+  await apolloServer.start();
   apolloServer.applyMiddleware({ app });
   app.listen(PORT, () => {
     if (conn.isConnected) {

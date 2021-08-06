@@ -2,40 +2,48 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  JoinColumn,
+  OneToOne,
 } from "typeorm";
 import { ObjectType, Field, Int } from "type-graphql";
 import { EncryptedID } from "../graphql/scalars";
-import { Profile } from "./Profile";
+import { User } from "./User";
 
 @Entity()
 @ObjectType()
-export class User {
+export class Profile {
   @Field(() => EncryptedID)
   @PrimaryGeneratedColumn("increment")
   id: number;
 
   @Field(() => String)
-  @Column()
-  email: string;
+  @Column({})
+  first_name: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ nullable: true })
+  middle_name?: string;
 
   @Field(() => String)
   @Column()
-  username: string;
+  last_name: string;
+
+  @Field(() => Date)
+  @Column()
+  birthday: Date;
 
   @Field(() => String)
   @Column()
-  mobile_number: string;
+  nickname: string;
 
-  @Column({ length: "255" })
-  password: string;
+  // Only URL. will save to cloud storage if needed
+  @Field(() => String)
+  @Column("text")
+  display_image!: string;
 
-  @OneToOne(() => Profile, (profile) => profile.user)
-  @JoinColumn()
-  profile: Profile;
+  @OneToOne(() => User, (user) => user.profile) // specify inverse side as a second parameter
+  user: User;
 
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;
